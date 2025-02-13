@@ -40,3 +40,12 @@ def update(id:int, usuarioActulizado:dict):
             usuarios[index].update(usuarioActulizado)
             return usuarios[index]
     raise HTTPException(status_code=400, detail="El usuario no existe")
+
+@app.delete('/usuarios/eliminar', tags = ['Operaciones CRUD'])
+def borrar(id:int):
+    for index, usr in enumerate(usuarios):
+        if usr["id"] == id:
+            del usuarios[index]
+            return f"Se removio el usuario con el id: {id}"
+        raise HTTPException(status_code=400, detail="El usuario no existe")
+            
