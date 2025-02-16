@@ -36,7 +36,7 @@ def leer():
     return {'Usuarios Registrados' : tareas}
 
 # Endpoint parametro opcional
-@app.get('/tareas/', tags=['Buscar tarea'])
+@app.post('/tareas/', tags=['Buscar tarea'])
 def consultarTarea(id: Optional[int] = None):
     if id is not None:
         for tarea in tareas:
@@ -46,3 +46,12 @@ def consultarTarea(id: Optional[int] = None):
         return {"mensaje": f"No se encontró el id: {id}"}
 
     return {"mensaje": "No se proporcionó un id"}
+
+#endpoint put
+@app.put('/tareas/{id}', tags = ['Nueva tarea'])
+def update(id:int, tareaActulizada:dict):
+    for index, tarea in enumerate(tareas):
+        if tarea["id"] == id:
+            tareas[index].update(tareaActulizada)
+            return tareas[index]
+    raise HTTPException(status_code=400, detail="El usuario no existe")
