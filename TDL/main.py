@@ -33,19 +33,16 @@ tareas = [
 
 @app.get('/tareas', tags = ['Lista de tareas'])
 def leer():
-    return {'Usuarios Registrados' : tareas}
+    return {'Tareas Registrados' : tareas}
 
-# Endpoint parametro opcional
-@app.post('/tareas/', tags=['Buscar tarea'])
-def consultarTarea(id: Optional[int] = None):
-    if id is not None:
-        for tarea in tareas:
-            if tarea["id"] == id:
-                return {"mensaje": "Tarea encontrada", "Tarea": tarea}
-
-        return {"mensaje": f"No se encontró el id: {id}"}
-
-    return {"mensaje": "No se proporcionó un id"}
+#endpoint post
+@app.post('/usuarios/', tags = ['Operaciones CRUD'])
+def insert(tarea:dict):
+    for tar in tareas:
+        if tar["id"]== tarea.get("id"):
+            raise HTTPException(status_code=400, detail="El usuario ya existe")
+    tareas.append(tarea)
+    return tarea
 
 #endpoint put
 @app.put('/tareas/{id}', tags = ['Nueva tarea'])
