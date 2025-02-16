@@ -61,3 +61,12 @@ def update(id:int, tareaActulizada:dict):
             tareas[index].update(tareaActulizada)
             return tareas[index]
     raise HTTPException(status_code=400, detail="El usuario no existe")
+
+@app.delete('/tareas/eliminar', tags=['Operaciones CRUD'])
+def borrar(id: int):
+    for index, tarea in enumerate(tareas):
+        if tarea["id"] == id:
+            del tareas[index]
+            return {"mensaje": f"Se eliminó la tarea con el id: {id}"}
+    
+    raise HTTPException(status_code=404, detail=f"No se encontró una tarea con el id: {id}")
