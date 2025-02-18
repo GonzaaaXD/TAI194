@@ -35,7 +35,7 @@ tareas = [
 def leer():
     return {'Tareas Registrados' : tareas}
 
-@app.get('/tareas/', tags=['Buscar tarea'])
+@app.get('/tareas/{id}', tags=['Buscar tarea'])
 def consultarTarea(id: Optional[int] = None):
     if id is not None:
         for tarea in tareas:
@@ -45,7 +45,7 @@ def consultarTarea(id: Optional[int] = None):
     return {"mensaje": "No se proporcionó un id"}
 
 #endpoint post
-@app.post('/usuarios/', tags = ['Agregar tarea'])
+@app.post('/nuevaTarea/', tags = ['Agregar tarea'])
 def insert(tarea:dict):
     for tar in tareas:
         if tar["id"]== tarea.get("id"):
@@ -54,7 +54,7 @@ def insert(tarea:dict):
     return tarea
 
 #endpoint put
-@app.put('/tareas/{id}', tags = ['Nueva tarea'])
+@app.put('/tareas/{id}/actualizar', tags = ['Actualizar'])
 def update(id:int, tareaActulizada:dict):
     for index, tarea in enumerate(tareas):
         if tarea["id"] == id:
@@ -62,7 +62,7 @@ def update(id:int, tareaActulizada:dict):
             return tareas[index]
     raise HTTPException(status_code=400, detail="El usuario no existe")
 
-@app.delete('/tareas/eliminar', tags=['Operaciones CRUD'])
+@app.delete('/tareas/eliminar={id}', tags=['Eliminar tarea'])
 def borrar(id: int):
     for index, tarea in enumerate(tareas):
         if tarea["id"] == id:
