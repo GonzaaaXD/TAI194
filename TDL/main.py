@@ -33,7 +33,7 @@ tareas = [
 
 @app.get('/tareas', tags = ['Lista de tareas'])
 def leer():
-    return {'Tareas Registrados' : tareas}
+    return {'Tareas Registradas' : tareas}
 
 @app.get('/tareas/{id}', tags=['Buscar tarea'])
 def consultarTarea(id: Optional[int] = None):
