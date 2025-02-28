@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 from typing import List
-from models import modelUsuario  # Asegúrate de que esté bien definido en models.py
-
+from models import modelUsuario, modelAuth
+from genToken import crear_Token
 app = FastAPI(
     title="Mi primer API",
     description="Gonzalo Uribe Arteaga",
@@ -20,6 +20,16 @@ usuarios = [
 @app.get("/", tags=["Inicio"])
 def home():
     return {"hello": "world fastApi"}
+
+#Endpoint generar token
+@app.post("/auth", tags=['Autenticación'])
+def auth(credenciales:modelAuth):
+    if credenciales.correo == "gonzalo@gmail.com" and credenciales.passwd == "123456789":
+        token:str=crear_Token(credenciales.model_dump())
+        print(token)
+        return {"aviso" : "Token generado" }
+    else:
+        return {"aviso" : "el usuairo no cuenta con prmiso" }
 
 # Obtener todos los usuarios
 @app.get("/todosUsuarios", response_model=List[modelUsuario], tags=["Operaciones CRUD"])
